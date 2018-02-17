@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load makerspace_template_tags %}
+{% load compile_static %}
+{% load sass_tags %}
+{% load static %}
+<html lang="en" ng-app="makerspaceAngularApp">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ makerspace.settings.all | find_setting_by_name:"page_title" }}</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% sass_src 'makerspace/css/application.scss' %}" type="text/css" />
+
+    <script type="text/javascript">
+      var Fablab = Fablab || {};
+      Fablab.withoutPlans = false;
+      Fablab.withoutSpaces = false;
+      Fablab.location_slug = "{{ makerspace.location_slug }}";
+      Fablab.makerspace_id = "{{ makerspace.id }}";
+    </script>
+</head>
+<body ng-controller="ApplicationController" ng-init="setCurrentMakerspace({{ makerspace.id }})" ng-cloak>
+<h1>Welcome to the Makerspace: haha - {{ makerspace.location_name }}</h1>
+<h2>Test String: {a testvar a}</h2>
+
+<section class="vbox">
+    <header class="header header-md navbar navbar-fixed-top-xs">
+      <div ui-view="header"></div>
+    </header>
+    <section ui-view="content">
+      <section class="hbox stretch">
+        <aside id="nav" class="aside-md bg-red hidden-print" ui-view="leftnav"></aside>
+        <section id="content">
+          <section class="vbox">
+            <section id="content-main" class="scrollable" ui-view="main">
+            </section>
+          </section>
+        </section>
+      </section> <!-- /.hbox -->
+    </section>
+  </section> <!-- /.vbox -->
+
+<script src="{% static 'jquery/dist/jquery.min.js' %}" charset="utf-8"></script>
+<script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}" charset="utf-8"></script>
+<script src="{% static 'angular/angular.min.js' %}" charset="utf-8"></script>
+<script src="{% static 'angular-cookies/angular-cookies.min.js' %}" charset="utf-8"></script>
+<script src="{% static 'angular-resource/angular-resource.min.js' %}" charset="utf-8"></script>
+<script src="{% static 'angular-sanitize/angular-sanitize.min.js' %}" charset="utf-8"></script>
+<script src="{% static 'angular-ui-router/release/angular-ui-router.min.js' %}" charset="utf-8"></script>
+<script src="{% static 'angular-ui-bootstrap/ui-bootstrap.min.js' %}" charset="utf-8"></script>
+<script src="{% static 'angular-ui-select/select.min.js' %}" charset="utf-8"></script>
+<script src="{% static 'angular-xeditable/dist/js/xeditable.min.js' %}" charset="utf-8"></script>
+<script src="{% static 'makerspace/scripts/makerspaceAngularApp.js' %}" type="text/javascript"></script>
+<script src="{% static 'makerspace/scripts/router.coffee'|compile %}" charset="utf-8"></script>
+<script src="{% static 'makerspace/scripts/controllers/application.coffee'|compile %}" type="text/javascript"></script>
+<script src="{% static 'makerspace/scripts/controllers/main_nav.coffee'|compile %}" charset="utf-8"></script>
+<script src="{% static 'makerspace/scripts/controllers/home.coffee'|compile %}" charset="utf-8"></script>
+<script src="{% static 'makerspace/scripts/filters/filters.coffee'|compile %}" type="text/javascript"></script>
+<script src="{% static 'makerspace/scripts/services/session.coffee'|compile %}" type="text/javascript"></script>
+<script src="{% static 'makerspace/scripts/services/setting.coffee'|compile %}" type="text/javascript"></script>
+<script src="{% static 'makerspace/scripts/services/group.coffee'|compile %}" type="text/javascript"></script>
+<script src="{% static 'makerspace/scripts/services/customAsset.coffee'|compile %}" type="text/javascript"></script>
+<script src="{% static 'makerspace/scripts/services/member.coffee'|compile %}" type="text/javascript"></script>
+<script src="{% static 'makerspace/scripts/services/event.coffee'|compile %}" type="text/javascript"></script>
+<script src="{% static 'makerspace/scripts/services/project.coffee'|compile %}" type="text/javascript"></script>
+<script src="{% static 'makerspace/scripts/services/version.coffee'|compile %}" type="text/javascript"></script>
+<script src="{% static 'makerspace/scripts/services/makerspace.coffee'|compile %}" type="text/javascript"></script>
+<script src="{% static 'makerspace/scripts/services/graphic.coffee'|compile %}" type="text/javascript"></script>
+</body>
+</html>

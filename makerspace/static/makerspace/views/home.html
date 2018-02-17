@@ -1,0 +1,135 @@
+
+<div class="alert alert-warning m-sm text-center" ng-if="(homeBlogpost != null) && (homeBlogpost != '') && (homeBlogpost != undefined)">
+	<span ng-bind-html="homeBlogpost"></span>
+</div>
+
+
+
+
+	<div class="col-lg-4 m-t-lg">
+
+		<section class="widget panel b-a m-t-sm" ng-if="lastTweets.length > 0">
+		  <div class="panel-heading b-b small">
+		    <div class="pull-right text-xs align">
+		        <a href="https://twitter.com/{a twitterName a}" ng-show="twitterName" target="_blank">{a 'follow_us' a}
+					<span class="fa-stack fa-lg">
+					  <i class="fa fa-circle fa-stack-2x text-yellow"></i>
+					  <i class="fa fa-twitter fa-stack-1x fa-inverse text-white"></i>
+					</span>
+				</a>
+		   </div>
+		    <h2 >{a 'latest_tweets' a}</h2>
+		  </div>
+
+		    <ul class="widget-content list-group list-group-lg no-bg auto">
+		      <li ng-repeat="tweet in lastTweets" class="text-sm list-group-item no-b clearfix" ng-bind-html="tweet.text">
+		      </li>
+		    </ul>
+
+		</section>
+
+		<section class="widget panel b-a" >
+		  <div class="panel-heading small b-b">
+		    <!-- <span class="badge inverse pull-right">110</span> -->
+		    <h2 >{a 'latest_registered_members' a}</h2>
+		  </div>
+
+			<div class="row m-n">
+        <div class="col-md-6 b-b b-r block-link"  ng-repeat="member in lastMembers" ui-sref="app.logged.members_show({id:member.slug})">
+
+
+          <div class="padder-v">
+            <span class="avatar avatar-block text-center">
+              <fab-user-avatar ng-model="member.profile.user_avatar" avatar-class="thumb-50"></fab-user-avatar>
+              <!-- <i class="on b-white bottom"></i> -->
+              <a ><span class="user-name m-l-sm text-black m-t-xs">{a member.name a}</span></a>
+            </span>
+          </div>
+
+        </div>
+                <!-- TODO EVEN <div class="col-md-6 b-b"> -->
+
+      </div>
+			<div class="m-t-sm m-b-sm text-center" ng-if="!isAuthenticated()">
+				<button href="#" ng-click="signup($event)" class="btn btn-warning-full width-70 font-sbold rounded text-sm" >{a 'create_an_account' a}</button>
+			</div>
+
+			<div class="m-t-sm m-b-sm text-center" ng-if="isAuthenticated()">
+				<button href="#" ui-sref="app.logged.members" class="btn btn-warning-full width-70 font-sbold rounded text-sm" >{a 'discover_members' a}</button>
+			</div>
+
+
+
+		</section>
+
+
+
+	</div>
+
+  <section class="home-events col-lg-12 wrapper">
+      <h4 class="text-sm m-t-sm">{a 'fablab_s_next_events' a} <a ui-sref="app.public.events_list" class="pull-right"><i class="fa fa-tags"></i> {a 'every_events' a}</a></h4>
+
+      <div class="row" ng-repeat="event in (upcomingEvents.length/3 | array)">
+
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" ng-repeat="event in upcomingEvents.slice(3*$index, 3*$index + 3)">
+
+
+          <div class="widget panel panel-default" ui-sref="app.public.events_show({id: event.id})">
+            <div class="panel-heading picture" style="background-image: url({a event.event_image_medium a});" >
+              <img src="data:image/png;base64," data-src="holder.js/100%x100%/text:&#xf03e;/font:FontAwesome/icon" bs-holder ng-if="!event.event_image" class="img-responsive">
+            </div>
+            <div class="panel-body" style="heigth:170px;">
+              <div class="row">
+                  <div class="col-xs-9">
+                    <h1 class="m-b">{a event.title a}</h1>
+                  </div>
+                  <div class="col-xs-3">
+                    <span class="v-middle badge text-xs" ng-class="'bg-{a event.category.name | lowercase a}'">{a event.category.name a}</span>
+                  </div>
+              </div>
+              <p class="event-description" ng-bind-html="event.description | simpleText | humanize : 500 | breakFilter"></p>
+
+              <hr/>
+              <div class="row">
+                  <div class="col-sm-6 row m-b-sm">
+                    <i class="fa fa-calendar red col-xs-3 padder-icon"></i>
+                    <h6 class="m-n col-xs-9 " ng-hide="isOneDayEvent(event)">{a 'from_date_to_date'  a}</h6>
+                    <h6 class="m-n col-xs-9 " ng-show="isOneDayEvent(event)">{a 'on_the_date' a}</h6>
+                  </div>
+                  <div class="col-sm-6 row m-b-sm">
+                    <i class="fa fa-clock-o red col-xs-3 padder-icon"></i>
+                    <h6 class="m-n col-xs-9">
+                        <span ng-if="event.all_day == 'true'" >{a 'all_day' a}</span>
+                        <span ng-if="event.all_day == 'false'">{a 'from_time_to_time' a}</span>
+                    </h6>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-sm-6 row m-b-sm">
+                    <i class="fa fa-user red col-xs-3 padder-icon"></i>
+                    <h6 class="m-n col-xs-9 ">
+                      <span ng-if="event.nb_free_places > 0">{a 'still_available'  a} {a event.nb_free_places a}</span>
+                      <span ng-if="!event.nb_total_places" >{a 'free_entry' a}</span>
+                      <span ng-if="event.nb_total_places > 0 && event.nb_free_places <= 0" >{a 'event_full' a}</span>
+                    </h6>
+                  </div>
+                  <div class="col-sm-6 row m-b-sm">
+                    <i class="fa fa-bookmark red col-xs-3 padder-icon"></i>
+                    <h6 class="m-n col-xs-9">
+                      <span ng-if="event.amount == 0" >{a 'free_admission' a}</span>
+                      <span ng-if="event.amount > 0">{a 'full_price' a} {a event.amount | currency a}</span>
+                    </h6>
+                  </div>
+              </div>
+
+              <div class="text-center clearfix ">
+                <div class="btn btn-lg btn-warning bg-white b-2x rounded m-t-sm m-b-sm upper text-sm width-70" ui-sref="app.public.events_show({id: event.id})" ><span>{a 'consult' a}</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+</div>
