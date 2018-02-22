@@ -2,7 +2,7 @@
   <div class="navbar-header">
     <a ng-click="toggleNavSize($event)" class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="#nav"><i class="fa fa-bars"></i></a>
     <a ui-sref="app.public.home" class="navbar-brand" ng-click="goabout = false">
-      <img ng-src="{a logo.custom_asset_file_attributes.attachment_url a}" alt="{a logo.custom_asset_file_attributes.attachment a}" class="m-r-sm"/>
+      <img ng-src="{a logo.image a}" alt="Makerspace" class="m-r-sm"/>
     </a>
   </div>
 
@@ -10,7 +10,7 @@
     <li>
       <a href class="about-link font-sbold text-sm" ng-click="goabout = !goabout" ui-sref="app.public.about" ng-show="!goabout">
         <span class="label label-theme rounded text-lg text-white m-r-sm font-ebold">?</span>
-          {a 'about_the_fablab' a}
+          About {a orgNameSetting.setting_value a}
       </a>
       <a href class="about-link font-sbold text-sm" ng-click="goabout = !goabout" ui-sref="app.public.home" ng-show="goabout">
         <span class="label label-theme label-icon rounded text-lg text-white m-r-sm font-ebold"><i class="fa fa-caret-up" ng-show="goabout"></i></span>
@@ -34,20 +34,20 @@
         </span>
       </a>
       <ul class="uib-dropdown-menu animated fadeInRight">
-        <li><a href="#" ui-sref="app.logged.dashboard.profile" >{a 'my_profile' a}</a></li>
-        <li><a href="#" ui-sref="app.logged.dashboard.settings" >{a 'my_settings' a}</a></li>
-        <li><a href="#" ui-sref="app.logged.dashboard.projects" >{a 'my_projects' a}</a></li>
-        <li><a href="#" ui-sref="app.logged.dashboard.trainings" >{a 'my_trainings' a}</a></li>
-        <li><a href="#" ui-sref="app.logged.dashboard.events" >{a 'my_events' a}</a></li>
-        <li><a href="#" ui-sref="app.logged.dashboard.invoices" >{a 'my_invoices' a}</a></li>
-        <li><a href="#" ui-sref="app.logged.dashboard.wallet" >{a 'my_wallet' a}</a></li>
+        <li><a href="#" ui-sref="app.logged.dashboard.profile" >My Profile</a></li>
+        <li><a href="#" ui-sref="app.logged.dashboard.settings" >My Settings</a></li>
+        <li><a href="#" ui-sref="app.logged.dashboard.projects" >My Projects</a></li>
+        <li><a href="#" ui-sref="app.logged.dashboard.trainings" >My Trainings</a></li>
+        <li><a href="#" ui-sref="app.logged.dashboard.events" >My Events</a></li>
+        <li><a href="#" ui-sref="app.logged.dashboard.invoices" >My Invoices</a></li>
+        <li><a href="#" ui-sref="app.logged.dashboard.wallet" >My Wallet</a></li>
 
         <li class="divider"></li>
-        <li><a href="#" class="text-black" ng-click="logout($event)"><i class="fa fa-power-off"></i> {a 'sign_out' a}</a></li>
+        <li><a href="#" class="text-black" ng-click="logout($event)"><i class="fa fa-power-off"></i> Sign Out</a></li>
       </ul>
     </li>
-      <li ng-if="!isAuthenticated()"><a href="#" class="font-sbold label text-md" ng-click="signup($event)"><i class="fa fa-rocket"></i> {a 'sign_up' a}</a></li>
+      <li ng-if="!isAuthenticated()"><a href="#" class="font-sbold label text-md" ng-click="signup($event)"><i class="fa fa-rocket"></i> Sign Up</a></li>
       <li ng-if="!isAuthenticated()">
-          <a href="#" class="font-sbold  label text-md" ng-click="login($event)"><i class="fa fa-sign-in"></i> {a 'sign_in'  a}</a>
+          <a href="#" class="font-sbold  label text-md" ng-click="login($event)"><i class="fa fa-sign-in"></i> Sign In</a>
       </li>
   </ul>

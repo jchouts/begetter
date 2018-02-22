@@ -4,6 +4,7 @@ from django.contrib import admin
 import rest_api
 
 urlpatterns = [
+    url(r'^webaccount/', include('webaccount.api_urls')),
     url(r'^makerspace/', include('makerspace.api_urls')),
     url(r'^machine/', include('machine.api_urls')),
     url(r'^event/', include('event.api_urls')),

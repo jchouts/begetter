@@ -9,33 +9,33 @@ Application.Controllers.controller "MainNavController", ["$scope", "$location", 
   $scope.navLinks = [
     {
       state: 'app.public.home'
-      linkText: 'home'
+      linkText: 'Home'
       linkIcon: 'home'
     }
 
     {
       state: 'app.public.machines_list'
-      linkText: 'reserve_a_machine'
+      linkText: 'Reserve A Machine'
       linkIcon: 'cogs'
     }
     {
       state: 'app.public.trainings_list'
-      linkText: 'trainings_registrations'
+      linkText: 'Training'
       linkIcon: 'graduation-cap'
     }
     {
       state: 'app.public.events_list'
-      linkText: 'events_registrations'
+      linkText: 'Events'
       linkIcon: 'tags'
     }
     {
       state: 'app.public.calendar'
-      linkText: 'public_calendar'
+      linkText: 'Calendar'
       linkIcon: 'calendar'
     }
     {
       state: 'app.public.projects_list'
-      linkText: 'projects_gallery'
+      linkText: 'Project Gallery'
       linkIcon: 'th'
     }
 
@@ -44,14 +44,14 @@ Application.Controllers.controller "MainNavController", ["$scope", "$location", 
   unless Fablab.withoutPlans
     $scope.navLinks.push({
         state: 'app.public.plans'
-        linkText: 'subscriptions'
+        linkText: 'Subscriptions'
         linkIcon: 'credit-card'
     })
 
   unless Fablab.withoutSpaces
     $scope.navLinks.splice(3, 0, {
       state: 'app.public.spaces_list'
-      linkText: 'reserve_a_space'
+      linkText: 'Reserve a Space'
       linkIcon: 'rocket'
     })
 
@@ -60,42 +60,42 @@ Application.Controllers.controller "MainNavController", ["$scope", "$location", 
   adminNavLinks = [
     {
       state: 'app.admin.trainings'
-      linkText: 'trainings_monitoring'
+      linkText: 'Training Monitoring'
       linkIcon: 'graduation-cap'
     }
     {
       state: 'app.admin.calendar'
-      linkText: 'manage_the_calendar'
+      linkText: 'Manage the Calendar'
       linkIcon: 'calendar'
     }
     {
       state: 'app.admin.members'
-      linkText: 'manage_the_users'
+      linkText: 'Manage Users'
       linkIcon: 'users'
     }
     {
       state: 'app.admin.invoices'
-      linkText: 'manage_the_invoices'
+      linkText: 'Manage Invoices'
       linkIcon: 'file-pdf-o'
     }
     {
       state: 'app.admin.pricing'
-      linkText: 'subscriptions_and_prices'
+      linkText: 'Subscriptions and Prices'
       linkIcon: 'money'
     }
     {
       state: 'app.admin.events'
-      linkText: 'manage_the_events'
+      linkText: 'Manage Events'
       linkIcon: 'tags'
     }
     {
       state: 'app.public.machines_list'
-      linkText: 'manage_the_machines'
+      linkText: 'Manage Machines'
       linkIcon: 'cogs'
     }
     {
       state: 'app.admin.project_elements'
-      linkText: 'manage_the_projects_elements'
+      linkText: 'Manage Project Elements'
       linkIcon: 'tasks'
     }
     {
@@ -105,12 +105,12 @@ Application.Controllers.controller "MainNavController", ["$scope", "$location", 
     }
     {
       state: 'app.admin.settings'
-      linkText: 'customization'
+      linkText: 'Customization'
       linkIcon: 'gear'
     }
     {
       state: 'app.admin.open_api_clients'
-      linkText: 'open_api_clients'
+      linkText: 'Open API Clients'
       linkIcon: 'cloud'
     }
   ].concat(Fablab.adminNavLinks)
@@ -120,7 +120,7 @@ Application.Controllers.controller "MainNavController", ["$scope", "$location", 
   unless Fablab.withoutSpaces
     $scope.adminNavLinks.splice(7, 0, {
       state: 'app.public.spaces_list'
-      linkText: 'manage_the_spaces'
+      linkText: 'Manage Spaces'
       linkIcon: 'rocket'
     })
 ]

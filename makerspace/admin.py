@@ -3,39 +3,13 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from django.utils.translation import ugettext_lazy as _
-
 from .models import MakerspaceOrganizationSetting
 from .models import Makerspace
 from .models import MakerspaceSetting
 from .models import Address
 from .models import Facility
 from .models import Graphic
-
-from .models import User
-
-@admin.register(User)
-class UserAdmin(DjangoUserAdmin):
-    """Define admin model for custom User model with no email field."""
-
-    fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                       'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-    )
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2'),
-        }),
-    )
-    list_display = ('email', 'first_name', 'last_name', 'is_staff')
-    search_fields = ('email', 'first_name', 'last_name')
-    ordering = ('email',)
-
+from .models import Document
 
 
 @admin.register(MakerspaceOrganizationSetting)
@@ -60,4 +34,9 @@ class FacilityAdmin(admin.ModelAdmin):
 
 @admin.register(Graphic)
 class GraphicAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id', 'name', 'image', 'makerspace')
+
+
+@admin.register(Document)
+class DocumentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'file', 'makerspace', 'upload_ts')

@@ -17,16 +17,19 @@ angular.module('makerspaceAngularApp.router', ['ui.router']).
           'main': {}
         resolve:
           logoFile: ['Graphic', (Graphic) ->
-                 Graphic.get({name: 'logo-file'}).$promise
+                 Graphic.list({name: 'logo_white_bg'}).$promise
           ]
           logoBlackFile: ['Graphic', (Graphic) ->
-            Graphic.get({name: 'logo-black-file'}).$promise
+            Graphic.list({name: 'logo_black_bg'}).$promise
           ]
-
-        onEnter: ['$rootScope', 'logoFile', 'logoBlackFile', ($rootScope, logoFile, logoBlackFile) ->
+          orgNameSetting: ['Setting', (Setting) ->
+            Setting.get({name: 'org_name'}).$promise
+          ]
+        onEnter: ['$rootScope', 'logoFile', 'logoBlackFile', 'orgNameSetting', ($rootScope, logoFile, logoBlackFile, orgNameSetting) ->
           ## Application logo
-          $rootScope.logo = logoFile.custom_asset
-          $rootScope.logoBlack = logoBlackFile.custom_asset
+          $rootScope.logo = logoFile[0]
+          $rootScope.logoBlack = logoBlackFile[0]
+          $rootScope.orgNameSetting = orgNameSetting
         ]
       .state 'app.public',
         abstract: true
@@ -70,7 +73,7 @@ angular.module('makerspaceAngularApp.router', ['ui.router']).
             controller: 'HomeController'
         resolve:
           faviconImage: ['$stateParams', 'Graphic', ($stateParams, Graphic) ->
-                Graphic.list({name: 'Favicon'}).$promise
+                Graphic.list({name: 'favicon'}).$promise
           ]
           #JCH#lastMembersPromise: ['Member', (Member)->
           #JCH#  Member.lastSubscribed(limit: 4).$promise

@@ -6,7 +6,7 @@
 //xeditable
 .editable-buttons{
   button[type=submit].btn-primary{
-    @extend .btn-warning;
+    //@extend .btn-warning;
   }
 }
 
@@ -170,7 +170,7 @@
 .carousel-control {
   cursor: pointer;
   background: none;
-  @include border-radius($border-radius-base);
+  //@include border-radius($border-radius-base);
   &:hover, &:focus {
     //color: $yellow;
   }

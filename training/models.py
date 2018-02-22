@@ -5,7 +5,7 @@ from machine.models import Machine,MachineCategory
 from membership.models import MembershipTier
 import uuid
 from django.conf import settings
-from makerspace.models import User
+
 
 # Create your models here.
 class Training(models.Model):
@@ -45,7 +45,7 @@ class TrainingPricing(models.Model):
         unique_together = ('training', 'membership_tier')
 
 class UserTraining(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     training = models.ForeignKey(Training)
     created_ts = models.DateTimeField(auto_now_add=True)
     updated_ts = models.DateTimeField(auto_now=True)

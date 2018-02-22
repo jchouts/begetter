@@ -62,7 +62,7 @@
 
 .header {
 	background-color: $header-bg;
-	@include box-shadow(0 1px 0px #cfcfcf);
+	//@include box-shadow(0 1px 0px #cfcfcf);
 }
 
 
@@ -112,7 +112,7 @@ body.container{
 
 @media (min-width: 768px) {
 	body.container{
-		@include box-shadow(0 3px 60px rgba(0,0,0,0.3));
+		//@include box-shadow(0 3px 60px rgba(0,0,0,0.3));
 		border-left: 1px solid darken($border-color, 10%);
 		border-right: 1px solid darken($border-color, 10%);
 	}

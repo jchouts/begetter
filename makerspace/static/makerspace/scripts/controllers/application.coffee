@@ -1,7 +1,7 @@
 'use strict'
 
-Application.Controllers.controller "ApplicationController", ["$rootScope", "$scope", "$window", '$locale', "Session",  "$uibModal", "$state", '$interval', "Setting", "Makerspace", 'Version'
-, ($rootScope, $scope, $window, $locale, Session, $uibModal, $state, $interval, Setting, Makerspace, Version) ->
+Application.Controllers.controller "ApplicationController", ["$rootScope", "$scope", "$window", '$locale', "Session", "DjangoAuth", "$uibModal", "$state", '$interval', "Setting", "Makerspace", 'Version'
+, ($rootScope, $scope, $window, $locale, Session, DjangoAuth, $uibModal, $state, $interval, Setting, Makerspace, Version) ->
 
 
 
@@ -74,9 +74,9 @@ Application.Controllers.controller "ApplicationController", ["$rootScope", "$sco
     e.preventDefault() if e
 
     $uibModal.open
-      templateUrl: 'shared/signupModal.html'
+      templateUrl: 'static/makerspace/views/signupModal.html'
       size: 'md'
-      controller: ['$scope', '$uibModalInstance', 'Group', 'CustomAsset', ($scope, $uibModalInstance, Group, CustomAsset) ->
+      controller: ['$scope', '$uibModalInstance', 'Group', 'CustomAsset', 'Document', 'DjangoAuth', ($scope, $uibModalInstance, Group, CustomAsset, Document, DjangoAuth) ->
         # default parameters for the date picker in the account creation modal
         $scope.datePicker =
           format: Fablab.uibDateFormat
@@ -95,8 +95,8 @@ Application.Controllers.controller "ApplicationController", ["$rootScope", "$sco
           $scope.groups = groups
 
         # retrieve the CGU
-        CustomAsset.get {name: 'cgu-file'}, (cgu) ->
-          $scope.cgu = cgu.custom_asset
+        Document.latest {document_name: 'customer_agreement', location_slug: Fablab.location_slug}, (cgu) ->
+          $scope.cgu = cgu
 
         # default user's parameters
         $scope.user =
@@ -116,7 +116,20 @@ Application.Controllers.controller "ApplicationController", ["$rootScope", "$sco
           orga = $scope.user.organization
           delete $scope.user.organization
           # register on server
-
+                    # register on server
+          DjangoAuth.register($scope.user).then (user) ->
+            # creation successful
+            $uibModalInstance.close(user)
+          , (error) ->
+            # creation failed...
+            # restore organization param
+            $scope.user.organization = orga
+            # display errors
+            angular.forEach error.data.errors, (v, k) ->
+              angular.forEach v, (err) ->
+                $scope.alerts.push
+                  msg: k+': '+err
+                  type: 'danger'
       ]
     .result['finally'](null).then (user) ->
       # when the account was created succesfully, set the session to the newly created account
@@ -261,10 +274,80 @@ Application.Controllers.controller "ApplicationController", ["$rootScope", "$sco
       $interval(checkNotifications, NOTIFICATIONS_CHECK_PERIOD)
       $rootScope.checkNotificationsIsInit = true
 
+  ##
+  # Open the modal window allowing the user to log in.
+  ##
+  openLoginModal = (toState, toParams, callback) ->
+    $uibModal.open
+      templateUrl: 'static/makerspace/views/loginModal.html'
+      size: 'sm'
+      controller: ['$scope', '$uibModalInstance', ($scope, $uibModalInstance) ->
+        user = $scope.user = {}
 
+        # Errors display
+        $scope.alerts = []
+        $scope.closeAlert = (index) ->
+          $scope.alerts.splice(index, 1)
 
+        $scope.login = () ->
+          DjangoAuth.login(user).then (user) ->
+            # Authentification succeeded ...
+            $uibModalInstance.close(user)
+            if callback and typeof callback is "function"
+              callback(user)
+          , (error) ->
+            # Authentication failed...
+            $scope.alerts.push
+              msg: 'Incorrect email address or password'
+              type: 'danger'
 
+        # handle modal behaviors. The provided reason will be used to define the following actions
+        $scope.dismiss = ->
+          $uibModalInstance.dismiss('cancel')
 
+        $scope.openSignup = (e) ->
+          e.preventDefault()
+          $uibModalInstance.dismiss('signup')
+
+        $scope.openResetPassword = (e) ->
+          e.preventDefault()
+          $uibModalInstance.dismiss('resetPassword')
+      ]
+
+    # what to do when the modal is closed
+    .result['finally'](null).then (user) ->
+      # authentification succeeded, set the session, gather the notifications and redirect
+      $scope.setCurrentUser(user)
+
+      if toState isnt null and toParams isnt null
+        $state.go(toState, toParams)
+
+    , (reason) ->
+      # authentification did not ended successfully
+      if reason is 'signup'
+        # open signup modal
+        $scope.signup()
+      else if reason is 'resetPassword'
+        # open the 'reset password' modal
+        $uibModal.open
+          templateUrl: 'static/makerspace/views/passwordNewModal.html'
+          size: 'sm'
+          controller: ['$scope', '$uibModalInstance', '$http', ($scope, $uibModalInstance, $http) ->
+            $scope.user = {email: ''}
+            $scope.sendReset = () ->
+              $scope.alerts = []
+              $http.post('/users/password.json', {user: $scope.user}).success ->
+                $uibModalInstance.close()
+              .error ->
+                $scope.alerts.push
+                  msg: 'Your email address is unknown'
+                  type: 'danger'
+
+          ]
+        .result['finally'](null).then ->
+          growl.info('In a moment, you will receive an email with instructions to reset your password')
+
+  # otherwise the user just closed the modal
 
 
   ##

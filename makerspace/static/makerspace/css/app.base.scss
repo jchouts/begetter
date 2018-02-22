@@ -130,7 +130,7 @@ dd {
   position: absolute;
   left: 0;
   right: 0;
-  @include transition(all .7s ease-in-out);
+  //@include transition(all .7s ease-in-out);
 }
 
 [ui-view].ng-enter {

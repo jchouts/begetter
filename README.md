@@ -1,0 +1,16 @@
+## Installation
+
+*NOTE: Requires [virtualenv](http://virtualenv.readthedocs.org/en/latest/),
+[virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/) and
+[Node.js](http://nodejs.org/).*
+
+* Fork this repository.
+* `$ git clone git@github.com:<your username>/jchouts/begetter.git`
+* `$ mkvirtualenv makerspace_manager`
+* `$ cd Begetter/`
+* `$ pip install -r requirements.txt`
+* `$ npm install -g yarn`
+* `$ npm install`
+* `$ yarn install`
+* `$ python manage.py migrate`
+* `$ python manage.py runserver`

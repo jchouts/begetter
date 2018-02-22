@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_filters',
     'static_precompiler',
     'sass_processor',
+    'webaccount',
     'makerspace',
     'membership',
     'event',
@@ -154,7 +155,7 @@ STATIC_PRECOMPILER_COMPILERS = (
 # https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#auth-custom-user
 # Followed details in https://www.fomfus.com/articles/how-to-use-email-as-username-for-django-authentication-removing-the-username
 
-AUTH_USER_MODEL = 'makerspace.User'
+AUTH_USER_MODEL = 'webaccount.User'
 
 SASS_PROCESSOR_INCLUDE_DIRS = [
     STATIC_ROOT,

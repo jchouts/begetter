@@ -1,11 +1,12 @@
 from rest_framework import serializers
-
+from django.contrib.auth.models import Group
 from .models import MakerspaceOrganizationSetting
 from .models import Makerspace
 from .models import MakerspaceSetting
 from .models import Address
 from .models import Facility
 from .models import Graphic
+from .models import Document
 
 # Create your models here.
 
@@ -46,5 +47,17 @@ class GraphicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Graphic
         fields = ('id', 'makerspace', 'name', 'image')
+
+
+class DocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Document
+        fields = ('id', 'makerspace', 'name', 'file')
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = '__all__'
 
 

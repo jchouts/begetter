@@ -58,7 +58,7 @@
 				padding: floor(($nav-primary-height - $line-height-computed)/2) 15px;
 				position: relative;
 				font-size: 14px;
-				@include transition(background-color .2s ease-in-out 0s);
+				//@include transition(background-color .2s ease-in-out 0s);
 				.no-borders & {
 					border-width: 0 !important;
 				}
@@ -154,7 +154,7 @@
 							margin: 0;
 							line-height: $nav-xs-height;
 							border: none !important;
-							@include transition(margin-top 0.2s);
+							//@include transition(margin-top 0.2s);
 							b{
 								left: 0 !important;
 							}
@@ -371,16 +371,16 @@
 			left: auto;
 			right: 0;
 			+ *{
-				@include translate3d(-$off-screen-nav-width, 0px, 0px);
+				//@include translate3d(-$off-screen-nav-width, 0px, 0px);
 			}
 		}
 		+ *{
 			background-color: $body-bg;
-			@include transition-transform(0.2s ease-in-out);
-			@include transition-delay(0s);
-			@include translate3d(0px, 0px, 0px);
-			@include backface-visibility(hidden);
-			@include translate3d($off-screen-nav-width, 0px, 0px);
+			//@include transition-transform(0.2s ease-in-out);
+			//@include transition-delay(0s);
+			//@include translate3d(0px, 0px, 0px);
+			//@include backface-visibility(hidden);
+			//@include translate3d($off-screen-nav-width, 0px, 0px);
 			overflow: hidden;
 			position: absolute;
 			width: 100%;

@@ -268,13 +268,13 @@ p, .widget p {
 .thumb-128-wrapper {
   img {
     width: 128px !important; height: 128px;
-    @extend .img-circle;
+    @extend .img-circle !optional;
   }
 }
 .thumb-140-wrapper {
   img {
     width: 140px !important; height: 140px;
-    @extend .img-circle;
+    @extend .img-circle !optional;
   }
 }
 

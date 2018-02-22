@@ -1,0 +1,261 @@
+<div class="modal-header">
+  <img ng-src="{a logoBlack.image a}" alt="Makerspace Signup" class="modal-logo"/>
+  <h1>Create Your Account</h1>
+</div>
+<div class="">
+  <uib-alert ng-repeat="alert in alerts" type="{a alert.type a}" close="closeAlert($index)">{a alert.msg a}</uib-alert>
+
+  <div class="well m-b-n">
+    <form role="form" name="signupForm" class="form-horizontal" novalidate autocomplete="off" ng-keydown="signupForm.$valid && $event.which == 13 && ok()">
+      <div class="form-group" ng-class="{'has-error': signupForm.gender.$dirty && signupForm.gender.$invalid}">
+        <div class="col-sm-12">
+          <label class="checkbox-inline">
+            <input type="radio"
+                   name="gender"
+                   ng-model="user.profile_attributes.gender"
+                   value="Male"
+                   required/> Male
+          </label>
+          <label class="checkbox-inline">
+            <input type="radio"
+                   name="gender"
+                   ng-model="user.profile_attributes.gender"
+                   value="female"/> Female
+          </label>
+          <label class="checkbox-inline">
+            <input type="radio"
+                   name="gender"
+                   ng-model="user.profile_attributes.gender"
+                   value="non-binary"/> Non-binary/ third gender
+          </label>
+          <label class="checkbox-inline">
+            <input type="radio"
+                   name="gender"
+                   ng-model="user.profile_attributes.gender"
+                   value="self_described"/>Prefer to self-describe
+          </label>
+          <label class="checkbox-inline">
+            <input type="radio"
+                   name="gender"
+                   ng-model="user.profile_attributes.gender"
+                   value="prefer_not_to_say"/>Prefer not to say
+          </label>
+          <span class="help-block" ng-show="signupForm.gender.$dirty && signupForm.gender.$error.required">Gender is required.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+
+        <div class="col-sm-6" ng-class="{'has-error': signupForm.first_name.$dirty && signupForm.first_name.$invalid}">
+          <input type="text"
+                 name="first_name"
+                 ng-model="user.profile_attributes.first_name"
+                 class="form-control"
+                 placeholder="Your first name"
+                 required>
+          <span class="help-block" ng-show="signupForm.first_name.$dirty && signupForm.first_name.$error.required">First name is required.</span>
+        </div>
+        <div class="m-b visible-xs"></div>
+        <div class="col-sm-6" ng-class="{'has-error': signupForm.last_name.$dirty && signupForm.last_name.$invalid}">
+          <input type="text"
+                 name="last_name"
+                 ng-model="user.profile_attributes.last_name"
+                 class="form-control"
+                 placeholder="Your surname"
+                 required>
+          <span class="help-block" ng-show="signupForm.last_name.$dirty && signupForm.last_name.$error.required">Surname is required.</span>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="{'has-error': signupForm.username.$dirty && signupForm.username.$invalid}">
+        <div class="col-sm-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+            <input type="text"
+                   name="username"
+                   ng-model="user.username"
+                   class="form-control"
+                   placeholder=" Your pseudonym"
+                   required>
+          </div>
+          <span class="help-block" ng-show="signupForm.username.$dirty && signupForm.username.$error.required">Pseudonym is required.</span>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="{'has-error': signupForm.email.$dirty && signupForm.email.$invalid}">
+        <div class="col-sm-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+            <input type="email"
+                   name="email"
+                   ng-model="user.email"
+                   class="form-control"
+                   placeholder="Your e-mail address"
+                   required>
+          </div>
+          <span class="help-block" ng-show="signupForm.email.$dirty && signupForm.email.$error.required">E-mail is required.</span>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="{'has-error': signupForm.password.$dirty && signupForm.password.$invalid}">
+        <div class="col-sm-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+            <input type="password"
+                   name="password"
+                   ng-model="user.password"
+                   class="form-control"
+                   placeholder="Your password"
+                   required
+                   ng-minlength="8">
+          </div>
+          <span class="help-block" ng-show="signupForm.password.$dirty && signupForm.password.$error.required">Password is required.</span>
+          <span class="help-block" ng-show="signupForm.password.$dirty && signupForm.password.$error.minlength">The given password is too short (Minimum 8 characters)</span>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="{'has-error': signupForm.password_confirmation.$dirty && signupForm.password_confirmation.$invalid}">
+        <div class="col-sm-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+            <input type="password"
+                   name="password_confirmation"
+                   ng-model="user.password_confirmation"
+                   class="form-control"
+                   placeholder="Type your password again"
+                   required ng-minlength="8"
+                   match="user.password">
+          </div>
+          <span class="help-block" ng-show="signupForm.password_confirmation.$dirty && signupForm.password_confirmation.$error.required">Password confirmation is required</span>
+          <span class="help-block" ng-show="signupForm.password_confirmation.$error.match">Password does not match with confirmation</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-12 checkbox-group">
+          <input type="checkbox"
+                 name="organization"
+                 id="organization"
+                 ng-model="user.organization"
+                 value="false"/>
+          <label for="organization">I am an organization</label>
+        </div>
+      </div>
+
+      <div class="form-group" ng-show="user.organization" ng-class="{'has-error': signupForm.organization_name.$dirty && signupForm.organization_name.$invalid}">
+        <div class="col-sm-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-building-o"></i></span>
+            <input type="text"
+                   name="organization_name"
+                   ng-model="user.profile_attributes.organization_attributes.name"
+                   class="form-control"
+                   placeholder="Name of your organization"
+                   ng-required="user.organization">
+          </div>
+          <span class="help-block" ng-show="signupForm.organization_name.$dirty && signupForm.organization_name.$error.required">organization name is required</span>
+        </div>
+      </div>
+
+      <div class="form-group" ng-show="user.organization" ng-class="{'has-error': signupForm.organization_address.$dirty && signupForm.organization_address.$invalid}">
+        <div class="col-sm-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+            <input type="text"
+                   name="organization_address"
+                   ng-model="user.profile_attributes.organization_attributes.address_attributes.address"
+                   class="form-control"
+                   placeholder="Address of your organization"
+                   ng-required="user.organization">
+          </div>
+          <span class="help-block" ng-show="signupForm.organization_address.$dirty && signupForm.organization_address.$error.required">organization address is required</span>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="{'has-error': signupForm.group_id.$dirty && signupForm.group_id.$invalid}">
+        <div class="col-sm-12">
+          <div>
+            <select ng-model="user.group_id" class="form-control" name="group_id" ng-options="g.id as g.name for g in groups" required>
+              <option value="">Your user's profile</option>
+            </select>
+          </div>
+          <span class="help-block" ng-show="signupForm.group_id.$dirty && signupForm.group_id.$error.required">user's profile is required</span>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="{'has-error': signupForm.birthday.$dirty && signupForm.birthday.$invalid}">
+        <div class="col-sm-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-calendar-o"></i> </span>
+            <input type="text"
+                   class="form-control"
+                   name="birthday"
+                   ng-model="user.profile_attributes.birthday"
+                   uib-datepicker-popup="{a datePicker.format a}"
+                   datepicker-options="datePicker.options"
+                   is-open="datePicker.opened"
+                   placeholder="Birth date"
+                   ng-click="openDatePicker($event)"
+                   required/>
+          </div>
+          <span class="help-block" ng-show="signupForm.birthday.$dirty && signupForm.birthday.$error.required">Birth date is required</span>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="{'has-error': signupForm.phone.$dirty && signupForm.phone.$invalid}">
+        <div class="col-sm-12">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-phone"></i> </span>
+            <input ng-model="user.profile_attributes.phone"
+                   type="text"
+                   name="phone"
+                   class="form-control"
+                   placeholder="Phone number"
+                   required>
+          </div>
+          <span class="help-block" ng-show="signupForm.phone.$dirty && signupForm.phone.$error.required">Phone number is required</span>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="{'has-error': signupForm.is_allow_contact.$dirty && signupForm.is_allow_contact.$invalid}">
+        <div class="col-sm-12 checkbox-group">
+          <input type="checkbox"
+                 name="is_allow_contact"
+                 id="is_allow_contact"
+                 ng-model="user.is_allow_contact"
+                 value="true"/>
+          <label for="is_allow_contact">I authorize {a orgNameSetting.setting_value a} users, registered on the site, to contact me</label>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="{'has-error': signupForm.is_allow_newsletter.$dirty && signupForm.is_allow_newsletter.$invalid}">
+        <div class="col-sm-12 checkbox-group">
+          <input type="checkbox"
+                 name="is_allow_newsletter"
+                 id="is_allow_newsletter"
+                 ng-model="user.is_allow_newsletter"
+                 value="true"/>
+          <label for="is_allow_newsletter">I accept to receive information from the {a orgNameSetting.setting_value a}</label>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="{'has-error': signupForm.cgu.$dirty && signupForm.cgu.$invalid}" ng-show="cgu">
+        <div class="col-sm-12 checkbox-group">
+          <input type="checkbox"
+                 name="cgu"
+                 id="cgu"
+                 ng-model="user.cgu"
+                 value="true"
+                 ng-required="cgu != null"/>
+          <label for="cgu"><span>I've read and I accept the {a orgNameSetting.setting_value a} policy</span> <a href="{{cgu.custom_asset_file_attributes.attachment_url}}" target="_blank">{{ '_the_fablab_policy' }}</a></label>
+        </div>
+      </div>
+      <div ng-if="!cgu">
+        <input type="hidden" name="cgu" ng-model="user.cgu" value="true">
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal-footer no-padder">
+  <button class="btn btn-valid btn-warning btn-block p-l btn-lg text-u-c r-b" ng-click="ok()" ng-disabled="signupForm.$invalid">Confirm</button>
+</div>

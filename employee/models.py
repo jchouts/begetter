@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from makerspace.models import User
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import Group
 import uuid
@@ -25,11 +25,11 @@ class Position(models.Model):
 
 class Employee(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
     hire_date = models.DateTimeField()
     start_date = models.DateTimeField()
     term_date = models.DateTimeField(default=None, blank=True, null=True)
-    manager = models.ForeignKey(User, related_name='employees')
+    manager = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='employees')
     salary = models.DecimalField(max_digits=12, decimal_places=2)
     position = models.ForeignKey(Position, related_name='employees')
 
@@ -42,11 +42,11 @@ class GroupDefault(models.Model):
 
 class EmploymentHistory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, related_name='employment_hist')
-    old_manager = models.ForeignKey(User, related_name='old_managers')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='employment_hist')
+    old_manager = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='old_managers')
     old_salary = models.DecimalField(max_digits=12, decimal_places=2)
     old_position = models.ForeignKey(Position, related_name='new_postitions')
-    new_manager = models.ForeignKey(User, related_name='new_managers')
+    new_manager = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='new_managers')
     new_salary = models.DecimalField(max_digits=12, decimal_places=2)
     new_position = models.ForeignKey(Position, related_name='new_positions')
 

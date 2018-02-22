@@ -4,10 +4,9 @@ from django.conf import settings
 from django.db import models
 from datetime import datetime as dt
 from django.core.validators import RegexValidator
-from makerspace.models import User
 
 class MemberProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='member_profile')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='member_profile')
     confirmation_sent = models.BinaryField()
     account_confirmed = models.BinaryField()
     address_street1 = models.CharField(max_length=200)
@@ -28,7 +27,7 @@ class MembershipTier(models.Model):
 
 
 class Membership(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     membership_tier = models.ForeignKey(MembershipTier)
     activation_date = models.DateTimeField()
     expiration_date = models.DateTimeField()
@@ -44,7 +43,7 @@ class Membership(models.Model):
 
 
 class EmergencyContact(models.Model):
-    user = models.ForeignKey(User, related_name='emergency_contacts')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='emergency_contacts')
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
@@ -94,7 +93,7 @@ class MemberTimesheet(models.Model):
     Events can be triggered by RFID tags or by automated events.
         If a user forgets to badge out, an automated event should badge them out when the shop closes.
     """
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     event_name = models.CharField(max_length=255)
     event_slug = models.SlugField()
     event_description = models.TextField()
