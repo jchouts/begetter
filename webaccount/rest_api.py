@@ -73,8 +73,6 @@ class AuthView(APIView):
         login(request, request.user)
         return Response(UserSerializer(request.user).data)
 
-
-
     def delete(self, request, *args, **kwargs):
         logout(request)
         return Response({}, status=status.HTTP_204_NO_CONTENT)

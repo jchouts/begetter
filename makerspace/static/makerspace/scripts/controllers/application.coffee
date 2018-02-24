@@ -62,7 +62,17 @@ Application.Controllers.controller "ApplicationController", ["$rootScope", "$sco
   ##
   $scope.logout = (e) ->
     e.preventDefault()
-    console.log(" you're signed out now.");
+    DjangoAuth.logout().then (oldUser) ->
+      # console.log(oldUser.name + " you're signed out now.");
+      Session.destroy()
+      $rootScope.currentUser = null
+      $rootScope.toCheckNotifications = false
+      $scope.notifications =
+        total: 0
+        unread: 0
+      $state.go('app.public.home')
+    , (error) ->
+      # An error occurred logging out.
 
 
 
@@ -213,7 +223,14 @@ Application.Controllers.controller "ApplicationController", ["$rootScope", "$sco
   initialize = ->
 
     # try to retrieve any currently logged user
-
+    DjangoAuth.login().then (user) ->
+      $scope.setCurrentUser(user)
+      # force users to complete their profile if they are not
+      if user.need_completion
+        $state.transitionTo('app.logged.profileCompletion')
+    , (error) ->
+      # Authentication failed...
+      $rootScope.toCheckNotifications = false
 
     # bind to the $stateChangeStart event (AngularJS/UI-Router)
     $rootScope.$on '$stateChangeStart', (event, toState, toParams, fromState, fromParams) ->
@@ -233,7 +250,8 @@ Application.Controllers.controller "ApplicationController", ["$rootScope", "$sco
 
 
     # shorthands
-
+    $scope.isAuthenticated = DjangoAuth.isAuthenticated
+    #$scope.isAuthorized = AuthService.isAuthorized
     $rootScope.login = $scope.login
 
 
